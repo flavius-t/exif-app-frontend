@@ -5,7 +5,14 @@ body {
   background-color: #3b3b3b;
 }
 
+* {
+  border-color: #df0b0b;
+}
+
 .App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
 }
 
@@ -26,25 +33,21 @@ p {
   display: none;
 }
 
-#form-file-upload {
+#file-upload-container {
+  background-color: #4d4d4d;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: 50px 0;
-  position: relative;
+  margin-top: 50px;
+  border: 2px dashed #ffffff;
+  padding: 20px;
+  width: 40%;
+  height: 200px;
 }
 
-#label-file-upload {
-  background-color: #474747;
-  border-radius: 5px;
-  color: white;
-  padding: 75px 25px;
-  cursor: pointer;
-  font-size: 18px;
-  border-style: dashed;
-  border-radius: 5px;
-  border-width: 3px;
+.drag-active {
+  opacity: 0.5;
 }
 
 .upload-button {
