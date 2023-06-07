@@ -9,13 +9,8 @@ function FileSelectorContainer({ onFilesSelected }) {
         onFilesSelected(e.target.files);
     }
 
-    const handleFolderSelected = (e) => {
-        e.preventDefault();
-        onFilesSelected(e.target.files);
-    }
-
     return (
-        <FileSelector onFilesSelected={handleFilesSelected} onFolderSelected={handleFolderSelected}/>
+        <FileSelector onFilesSelected={handleFilesSelected} />
     );
 }
 
