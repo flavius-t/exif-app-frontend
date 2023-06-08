@@ -40,10 +40,16 @@ p {
   align-items: center;
   justify-content: center;
   margin-top: 50px;
-  border: 2px dashed #ffffff;
+  border: 3px dashed #ffffff;
+  border-radius: 5px;
   padding: 20px;
   width: 40%;
   height: 200px;
+}
+
+#file-upload-container:hover {
+  opacity: 0.5;
+  cursor: pointer;
 }
 
 .drag-active {
