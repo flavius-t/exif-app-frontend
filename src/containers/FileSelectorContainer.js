@@ -19,7 +19,7 @@ const FileUpload = () => {
         setIsDragging(false);
     };
 
-    const checkIfFilesAreAllowed = (files) => {
+    const areFilesAllowed = (files) => {
         for (let i = 0; i < files.length; i++) {
             if (!allowedFileTypes.includes(files[i].type)) {
                 return false;
@@ -32,8 +32,7 @@ const FileUpload = () => {
         e.preventDefault();
         setIsDragging(false);
 
-        // TODO: allow only image files
-        if (!checkIfFilesAreAllowed(e.dataTransfer.files)) {
+        if (!areFilesAllowed(e.dataTransfer.files)) {
             alert('Only image files are allowed!');
             return;
         }
