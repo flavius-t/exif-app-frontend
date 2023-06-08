@@ -5,25 +5,25 @@ const FileUpload = () => {
     const [isDragging, setIsDragging] = useState(false);
 
     const handleDragEnter = (e) => {
-    e.preventDefault();
-    setIsDragging(true);
+        e.preventDefault();
+        setIsDragging(true);
     };
 
     const handleDragLeave = (e) => {
-    e.preventDefault();
-    setIsDragging(false);
+        e.preventDefault();
+        setIsDragging(false);
     };
 
     const handleDrop = (e) => {
-    e.preventDefault();
-    setIsDragging(false);
+        e.preventDefault();
+        setIsDragging(false);
 
-    // TODO: allow only image files
+        // TODO: allow only image files
 
-    setFiles(e.dataTransfer.files);
-    // Process the dropped files -- setFiles is async, useEffect to handle files
-    console.log(e.dataTransfer.files)
-    console.log(files);
+        setFiles(e.dataTransfer.files);
+        // Process the dropped files -- setFiles is async, useEffect to handle files
+        console.log(e.dataTransfer.files)
+        console.log(files);
     };
 
     const handleFileInputChange = (e) => {
