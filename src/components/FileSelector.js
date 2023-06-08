@@ -1,4 +1,6 @@
 import React from 'react';
+import allowedFileTypes from '../utility/fileTypes';
+
 
 function FileSelector({ onDragEnter, onDragLeave, onDrop, onFileInputChange, onUploadClick, isDragging }) {
     return (
@@ -15,7 +17,7 @@ function FileSelector({ onDragEnter, onDragLeave, onDrop, onFileInputChange, onU
             <input
                 type="file"
                 id="input-file-upload"
-                accept="image/jpg, image/jpeg, image/png"
+                accept={allowedFileTypes.join(',')}
                 multiple={true}
                 onChange={onFileInputChange}
             />

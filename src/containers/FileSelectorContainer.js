@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import FileSelector from '../components/FileSelector';
+import allowedFileTypes from '../utility/fileTypes';
+
 
 const FileUpload = () => {
     const [files, setFiles] = useState([]);
@@ -17,11 +19,24 @@ const FileUpload = () => {
         setIsDragging(false);
     };
 
+    const checkIfFilesAreAllowed = (files) => {
+        for (let i = 0; i < files.length; i++) {
+            if (!allowedFileTypes.includes(files[i].type)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     const handleDrop = (e) => {
         e.preventDefault();
         setIsDragging(false);
 
         // TODO: allow only image files
+        if (!checkIfFilesAreAllowed(e.dataTransfer.files)) {
+            alert('Only image files are allowed!');
+            return;
+        }
 
         setFiles(e.dataTransfer.files);
         // Process the dropped files -- setFiles is async, useEffect to handle files
