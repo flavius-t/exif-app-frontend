@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
+import FileSelector from '../components/FileSelector';
 
 const FileUpload = () => {
     const [files, setFiles] = useState([]);
     const [isDragging, setIsDragging] = useState(false);
 
     const handleDragEnter = (e) => {
+        console.log('drag enter')
         e.preventDefault();
         setIsDragging(true);
     };
 
     const handleDragLeave = (e) => {
+        console.log('drag leave')
         e.preventDefault();
         setIsDragging(false);
     };
@@ -38,24 +41,14 @@ const FileUpload = () => {
     };
 
     return (
-        <div
-            id="file-upload-container"
-            className={isDragging ? 'drag-active' : ''}
+        <FileSelector
             onDragEnter={handleDragEnter}
-            onDragOver={handleDragEnter} // Needed for drop events to work
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
-            onClick={handleUploadButtonClick}
-        >
-            <p>Drag and drop files here or click to select</p>
-            <input
-                type="file"
-                id="input-file-upload"
-                accept="image/jpg, image/jpeg, image/png"
-                multiple={true}
-                onChange={handleFileInputChange}
-            />
-        </div>
+            onFileInputChange={handleFileInputChange}
+            onUploadClick={handleUploadButtonClick}
+            isDragging={isDragging}
+        />
     );
 };
 
