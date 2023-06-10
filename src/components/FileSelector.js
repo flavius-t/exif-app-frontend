@@ -2,7 +2,7 @@ import React from 'react';
 import allowedFileTypes from '../utility/fileTypes';
 
 
-function FileSelector({ onDragEnter, onDragLeave, onDrop, onFileInputChange, onUploadClick, isDragging }) {
+function FileSelector({ onDragEnter, onDragLeave, onDrop, onFileInputChange, onUploadClick, isDragging, fileButtonRef }) {
     return (
         <div
             id="file-upload-container"
@@ -20,6 +20,7 @@ function FileSelector({ onDragEnter, onDragLeave, onDrop, onFileInputChange, onU
                 accept={allowedFileTypes.join(',')}
                 multiple={true}
                 onChange={onFileInputChange}
+                ref = {fileButtonRef}
             />
         </div>
     );

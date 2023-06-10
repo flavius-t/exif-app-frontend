@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import FileSelector from '../components/FileSelector';
 import allowedFileTypes from '../utility/fileTypes';
 
@@ -6,6 +6,8 @@ import allowedFileTypes from '../utility/fileTypes';
 const FileUpload = () => {
     const [files, setFiles] = useState([]);
     const [isDragging, setIsDragging] = useState(false);
+
+    const fileButton = useRef(null);
 
     const handleDragEnter = (e) => {
         console.log('drag enter')
@@ -51,7 +53,7 @@ const FileUpload = () => {
     };
     
     const handleUploadButtonClick = () => {
-        document.getElementById('input-file-upload').click();
+        fileButton.current.click();
     };
 
     return (
@@ -62,6 +64,7 @@ const FileUpload = () => {
             onFileInputChange={handleFileInputChange}
             onUploadClick={handleUploadButtonClick}
             isDragging={isDragging}
+            fileButtonRef = {fileButton}
         />
     );
 };
