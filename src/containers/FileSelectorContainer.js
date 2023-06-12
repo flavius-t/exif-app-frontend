@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import FileSelector from '../components/FileSelector';
 import allowedFileTypes from '../utility/fileTypes';
 
@@ -6,6 +6,19 @@ import allowedFileTypes from '../utility/fileTypes';
 const FileUpload = () => {
     const [files, setFiles] = useState([]);
     const [isDragging, setIsDragging] = useState(false);
+
+    useEffect(
+        () => {
+            // ignore empty files array during initial render
+            if (files.length === 0) {
+                return;
+            }
+            console.log('files changed');
+            console.log(files);
+            handleSubmit();
+        },
+        [files]
+    ); 
 
     const fileButton = useRef(null);
 
@@ -30,6 +43,26 @@ const FileUpload = () => {
         return true;
     }
 
+    const handleSubmit = () => {
+        const formData = new FormData();
+        for (let i = 0; i < files.length; i++) {
+            formData.append(`image_${i}`, files[i]);
+        }
+    
+        fetch('http://localhost:5000/upload', {
+            method: 'POST',
+            body: formData,
+        })
+            .then(response => response.text()) // TODO: change to json()
+            .then(data => {
+            // Handle response from backend
+            console.log(data);
+            })
+            .catch(error => {
+            // Handle errors
+        });
+    };
+
     const handleDrop = (e) => {
         e.preventDefault();
         setIsDragging(false);
@@ -39,17 +72,13 @@ const FileUpload = () => {
             return;
         }
 
+        // setFiles is async, use useEffect to submit files
         setFiles(e.dataTransfer.files);
-        // Process the dropped files -- setFiles is async, useEffect to handle files
-        console.log(e.dataTransfer.files)
-        console.log(files);
     };
 
     const handleFileInputChange = (e) => {
+        // setFiles is async, use useEffect to submit files
         setFiles(e.target.files);
-        // Process the selected files -- setFiles is async, useEffect to handle files
-        console.log(e.target.files);
-        console.log(files);
     };
     
     const handleUploadButtonClick = () => {
