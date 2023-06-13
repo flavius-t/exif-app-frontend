@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import FileSelector from '../components/FileSelector';
 import allowedFileTypes from '../utility/fileTypes';
 
@@ -21,6 +22,8 @@ const FileUpload = () => {
     ); 
 
     const fileButton = useRef(null);
+
+    const navigate = useNavigate();
 
     const handleDragEnter = (e) => {
         console.log('drag enter')
@@ -57,6 +60,11 @@ const FileUpload = () => {
             .then(data => {
             // Handle response from backend
             console.log(data);
+
+            // TODO: replace with actual request_id and images from backend
+            const request_id = "ah532sf";
+            const processedImages = ["img_1", "img_2", "img_3"];
+            navigate(`/images/${request_id}`, { state: { processedImages: processedImages } });
             })
             .catch(error => {
             // Handle errors
