@@ -63,7 +63,7 @@ const FileUpload = () => {
 
             // TODO: replace with actual request_id and images from backend
             const request_id = "ah532sf";
-            const processedImages = ["img_1", "img_2", "img_3"];
+            const processedImages = ["img_1", "img_2", "img_3" , "img_4", "img_5", "img_6", "img_7", "img_8"];
             navigate(`/images/${request_id}`, { state: { processedImages: processedImages } });
             })
             .catch(error => {

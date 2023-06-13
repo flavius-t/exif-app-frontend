@@ -10,14 +10,17 @@ function ImagesContainer(props) {
         <div>
             <h1>Images</h1>
             <p>Request ID: {request_id}</p>
-            {processedImages.map((image, index) => {
-                return (
-                    <div key={index}>
-                        <p>{image}</p>
-                    </div>
-                );
-            }
-            )}
+            <div className="image-grid">
+                {processedImages.map(
+                    (image, index) => {
+                        return (
+                            <div key={index}>
+                                <p>{image}</p>
+                            </div>
+                        );
+                    }
+                )}
+            </div>
         </div>
     );
 }
