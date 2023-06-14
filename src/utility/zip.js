@@ -1,7 +1,7 @@
 import JSZip from 'jszip';
 
 
-export default function zipFiles(files, formData) {
+export const zipFiles = (files) => {
     const zip = new JSZip();
 
     for (const file of files) {
@@ -9,4 +9,17 @@ export default function zipFiles(files, formData) {
     }
 
     return zip;
+}
+
+export const convertZipToBlob = (zip) => {
+    return new Promise(
+        (resolve, reject) => {
+            zip.generateAsync({ type: 'blob' })
+            .then(blob => {
+                resolve(blob);
+        })
+        .catch(error => {
+            reject(error);
+        });
+    });
 }

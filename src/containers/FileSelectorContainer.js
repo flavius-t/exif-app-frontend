@@ -2,8 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import FileSelector from '../components/FileSelector';
 import allowedFileTypes from '../utility/fileTypes';
-import zipFiles from '../utility/zip';
-import convertZipToBlob from '../utility/blob';
+import { zipFiles, convertZipToBlob } from '../utility/zip';
 
 
 const FileUpload = () => {
@@ -52,24 +51,17 @@ const FileUpload = () => {
         const zip = zipFiles(files);
         const formData = new FormData();
 
-        // TODO: clean this up
         convertZipToBlob(zip)
             .then(blob => {
                 formData.append('file', blob, 'filename.zip');
-                console.log('formData')
-                for (const entry of formData.entries()) {
-                    console.log('formData')
-                    console.log(entry);
-                }
 
-                // ... send the FormData object to the server ...
                 fetch('http://localhost:5000/upload', {
                     method: 'POST',
                     body: formData,
                 })
                     .then(response => response.text()) // TODO: change to json()
                     .then(data => {
-                    // Handle response from backend
+                    // TODO: Handle response from backend
                     console.log(data);
 
                     // TODO: replace with actual request_id and images from backend
@@ -79,6 +71,7 @@ const FileUpload = () => {
                     })
                     .catch(error => {
                     // Handle errors
+                    console.log(error);
                 });
             })
             .catch(error => {
