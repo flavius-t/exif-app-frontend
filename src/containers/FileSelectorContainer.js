@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import FileSelector from '../components/FileSelector';
 import allowedFileTypes from '../utility/fileTypes';
+import zipFiles from '../utility/zip';
+import convertZipToBlob from '../utility/blob';
 
 
 const FileUpload = () => {
@@ -47,28 +49,42 @@ const FileUpload = () => {
     }
 
     const handleSubmit = () => {
+        const zip = zipFiles(files);
         const formData = new FormData();
-        for (let i = 0; i < files.length; i++) {
-            formData.append(`image_${i}`, files[i]);
-        }
-    
-        fetch('http://localhost:5000/upload', {
-            method: 'POST',
-            body: formData,
-        })
-            .then(response => response.text()) // TODO: change to json()
-            .then(data => {
-            // Handle response from backend
-            console.log(data);
 
-            // TODO: replace with actual request_id and images from backend
-            const request_id = "ah532sf";
-            const processedImages = ["img_1", "img_2", "img_3" , "img_4", "img_5", "img_6", "img_7", "img_8"];
-            navigate(`/images/${request_id}`, { state: { processedImages: processedImages } });
+        // TODO: clean this up
+        convertZipToBlob(zip)
+            .then(blob => {
+                formData.append('file', blob, 'filename.zip');
+                console.log('formData')
+                for (const entry of formData.entries()) {
+                    console.log('formData')
+                    console.log(entry);
+                }
+
+                // ... send the FormData object to the server ...
+                fetch('http://localhost:5000/upload', {
+                    method: 'POST',
+                    body: formData,
+                })
+                    .then(response => response.text()) // TODO: change to json()
+                    .then(data => {
+                    // Handle response from backend
+                    console.log(data);
+
+                    // TODO: replace with actual request_id and images from backend
+                    const request_id = "ah532sf";
+                    const processedImages = ["img_1", "img_2", "img_3" , "img_4", "img_5", "img_6", "img_7", "img_8"];
+                    navigate(`/images/${request_id}`, { state: { processedImages: processedImages } });
+                    })
+                    .catch(error => {
+                    // Handle errors
+                });
             })
             .catch(error => {
-            // Handle errors
-        });
+                // Handle any errors that occur during the conversion process
+                console.error(error);
+            });
     };
 
     const handleDrop = (e) => {
