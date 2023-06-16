@@ -1,8 +1,9 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import FileSelector from '../components/FileSelector';
 import allowedFileTypes from '../utility/fileTypes';
-import { zipFiles, convertZipToBlob } from '../utility/zip';
+import { zipFiles, unzipBlob } from '../utility/zip';
+import FilesContext from '../utility/FilesContext';
 
 
 const FileUpload = () => {
@@ -15,16 +16,16 @@ const FileUpload = () => {
             if (files.length === 0) {
                 return;
             }
-            console.log('files changed');
+            console.log('files changed: submitting files to server');
             console.log(files);
-            handleSubmit();
+            submitFilesToServer();
         },
         [files]
-    ); 
+    );
 
     const fileButton = useRef(null);
-
     const navigate = useNavigate();
+    const { updateFiles } = useContext(FilesContext);
 
     const handleDragEnter = (e) => {
         console.log('drag enter')
@@ -47,37 +48,42 @@ const FileUpload = () => {
         return true;
     }
 
-    const handleSubmit = () => {
-        const zip = zipFiles(files);
+    const submitFilesToServer = async () => {
+        // TODO: error handling
+        const zip_blob = await zipFiles(files);
+
         const formData = new FormData();
-
-        convertZipToBlob(zip)
+        formData.append('file', zip_blob, 'images.zip');
+        
+        console.time('server request');
+        fetch('http://localhost:5000/upload', {
+            method: 'POST',
+            body: formData,
+        })
+            .then(response => {
+                console.timeEnd('server request');
+                return response.blob()
+            })
             .then(blob => {
-                formData.append('file', blob, 'filename.zip');
-
-                fetch('http://localhost:5000/upload', {
-                    method: 'POST',
-                    body: formData,
-                })
-                    .then(response => response.text()) // TODO: change to json()
-                    .then(data => {
-                    // TODO: Handle response from backend
-                    console.log(data);
-
-                    // TODO: replace with actual request_id and images from backend
-                    const request_id = "ah532sf";
-                    const processedImages = ["img_1", "img_2", "img_3" , "img_4", "img_5", "img_6", "img_7", "img_8"];
-                    navigate(`/images/${request_id}`, { state: { processedImages: processedImages } });
+                console.time('unzip');
+                unzipBlob(blob)
+                    .then(extracted => {
+                        console.timeEnd('unzip');
+                        updateFiles(extracted);
                     })
                     .catch(error => {
-                    // Handle errors
-                    console.log(error);
+                        console.error(error);
                 });
+                console.timeEnd('myFunction');
+
+                // TODO: get request id from response
+                const request_id = "avadfadfadfdas" 
+                navigate(`/images/${request_id}`);
             })
             .catch(error => {
-                // Handle any errors that occur during the conversion process
-                console.error(error);
-            });
+                // Handle errors
+                console.log(error);
+        });
     };
 
     const handleDrop = (e) => {

@@ -1,21 +1,26 @@
-import React from "react";
-import { useParams, useLocation } from "react-router-dom";
+import React, { useContext, useEffect } from "react";
+import FilesContext from "../utility/FilesContext";
 
-function ImagesContainer(props) {
-    const { request_id } = useParams();
-    const location = useLocation();
-    const { processedImages } = location.state;
+function ImagesContainer() {
+    const { extractedFiles } = useContext(FilesContext);
+
+    useEffect(() => {
+        if (extractedFiles.length === 0) {
+            return;
+        }
+        console.log("extractedFiles changed");
+        console.log(extractedFiles);
+    }, [extractedFiles]);
 
     return (
         <div>
             <h1>Images</h1>
-            <p>Request ID: {request_id}</p>
             <div className="image-grid">
-                {processedImages.map(
+                {extractedFiles.map(
                     (image, index) => {
                         return (
-                            <div key={index}>
-                                <p>{image}</p>
+                            <div className="grid-img-container" key={index}>
+                                <img src={image.data} alt={image.filename} type='image/jpeg'/>
                             </div>
                         );
                     }
