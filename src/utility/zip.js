@@ -31,11 +31,13 @@ export const unzipBlob = async (blob) => {
         // where each promise represents the extraction of a file.
         Object.keys(zip.files).map(async (filename) => {
             const fileData = await zip.files[filename].async('blob');
-            const fileType = getFileExt(filename);
-            const imageUrl = URL.createObjectURL(
-                new Blob([fileData], { type: `image/${fileType}` })
+            // TODO: there has to be a better way to get the mime type
+            const fileType = (getFileExt(filename) === 'json') ? 'application/json' : 'image/jpeg'
+            // TODO: find way to preserve file name instead of changing to blob url
+            const fileUrl = URL.createObjectURL(
+                new Blob([fileData], { type: fileType })
             );
-            files.push({ filename, data: imageUrl});
+            files.push({ filename, data: fileUrl});
         })
     );
 

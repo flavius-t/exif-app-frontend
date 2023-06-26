@@ -1,6 +1,14 @@
 import React, { useContext, useEffect } from "react";
 import FilesContext from "../utility/FilesContext";
 
+const getFileExt = (filename) => {
+    let file_ext = filename.split('.').pop();
+    if (file_ext === 'jpg') {
+        return file_ext = 'jpeg';
+    }
+    return file_ext;
+}
+
 function ImagesContainer() {
     const { extractedFiles } = useContext(FilesContext);
 
@@ -17,12 +25,18 @@ function ImagesContainer() {
             <h1>Images</h1>
             <div className="image-grid">
                 {extractedFiles.map(
-                    (image, index) => {
-                        return (
-                            <div className="grid-img-container" key={index}>
-                                <img src={image.data} alt={image.filename} type='image/jpeg'/>
-                            </div>
-                        );
+                    (file, index) => {
+                        // get file type from blob
+                        const fileType = (getFileExt(file.filename) === 'json') ? 'application/json' : 'image/jpeg'
+                        console.log(`filename ${file.filename}: ${fileType}`)
+                        if (fileType === 'image/jpeg') {
+                            return (
+                                <div className="grid-img-container" key={index}>
+                                    <img src={file.data} alt={file.filename} type='image/jpeg'/>
+                                    <h3>{file.filename}</h3>
+                                </div>
+                            );
+                        }
                     }
                 )}
             </div>
