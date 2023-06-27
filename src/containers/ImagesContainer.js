@@ -1,14 +1,8 @@
 import React, { useContext, useEffect } from "react";
 import FilesContext from "../utility/FilesContext";
 
-const getFileExt = (filename) => {
-    let file_ext = filename.split('.').pop();
-    if (file_ext === 'jpg') {
-        return file_ext = 'jpeg';
-    }
-    return file_ext;
-}
 
+// TODO: move rendering to presentational component
 function ImagesContainer() {
     const { extractedFiles } = useContext(FilesContext);
 
@@ -26,14 +20,14 @@ function ImagesContainer() {
             <div className="image-grid">
                 {extractedFiles.map(
                     (file, index) => {
-                        // get file type from blob
-                        const fileType = (getFileExt(file.filename) === 'json') ? 'application/json' : 'image/jpeg'
-                        console.log(`filename ${file.filename}: ${fileType}`)
-                        if (fileType === 'image/jpeg') {
+                        if (file.type === 'image/jpeg') {
+                            const imageUrl = URL.createObjectURL(new Blob([file.data], { type: file.type }));
                             return (
                                 <div className="grid-img-container" key={index}>
-                                    <img src={file.data} alt={file.filename} type='image/jpeg'/>
-                                    <h3>{file.filename}</h3>
+                                    <a href={imageUrl} download={file.filename}>
+                                        <img src={imageUrl} alt={file.filename} type='image/jpeg'/>
+                                        <h3>{file.filename}</h3>
+                                    </a>
                                 </div>
                             );
                         }
