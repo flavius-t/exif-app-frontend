@@ -9,6 +9,7 @@ import FilesContext from '../utility/FilesContext';
 const FileUpload = () => {
     const [files, setFiles] = useState([]);
     const [isDragging, setIsDragging] = useState(false);
+    const [isProcessing, setIsProcessing] = useState(false);
 
     useEffect(
         () => {
@@ -49,6 +50,8 @@ const FileUpload = () => {
     }
 
     const submitFilesToServer = async () => {
+        setIsProcessing(true);
+
         // TODO: error handling
         const zip_blob = await zipFiles(files);
 
@@ -75,6 +78,8 @@ const FileUpload = () => {
                         console.error(error);
                 });
                 console.timeEnd('myFunction');
+
+                setIsProcessing(false);
 
                 // TODO: get request id from response
                 const request_id = "avadfadfadfdas" 
@@ -117,6 +122,7 @@ const FileUpload = () => {
             onUploadClick={handleUploadButtonClick}
             isDragging={isDragging}
             fileButtonRef = {fileButton}
+            isProcessing={isProcessing}
         />
     );
 };
