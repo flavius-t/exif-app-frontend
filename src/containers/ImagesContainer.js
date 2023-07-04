@@ -1,9 +1,11 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import FilesContext from "../utility/FilesContext";
+// import "../styles/ImagesContainer.css";
+import MetadataViewContainer from "./MetadataViewContainer";
 
 
-// TODO: move rendering to presentational component
 function ImagesContainer() {
+    const [selectedImage, setSelectedImage] = useState(null);
     const { extractedFiles } = useContext(FilesContext);
 
     useEffect(() => {
@@ -14,6 +16,20 @@ function ImagesContainer() {
         console.log(extractedFiles);
     }, [extractedFiles]);
 
+    const handleTriggerSingleView = (e) => {
+        e.preventDefault();
+        console.log("clicked image");
+        console.log(e.target.alt);
+        setSelectedImage(e.target.alt);
+    }
+
+    if (selectedImage) {
+        return (
+            <MetadataViewContainer imageFileName={selectedImage} />
+        );
+    }
+
+    // TODO: turn this into ImagesGrid presentational component
     return (
         <div>
             <h1>Images</h1>
@@ -25,7 +41,7 @@ function ImagesContainer() {
                             return (
                                 <div className="grid-img-container" key={index}>
                                     <a href={imageUrl} download={file.filename}>
-                                        <img src={imageUrl} alt={file.filename} type='image/jpeg'/>
+                                        <img src={imageUrl} alt={file.filename} type='image/jpeg' onClick={handleTriggerSingleView} />
                                         <h3>{file.filename}</h3>
                                     </a>
                                 </div>
