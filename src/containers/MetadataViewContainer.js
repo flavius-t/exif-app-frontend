@@ -55,16 +55,34 @@ export default function MetadataViewContainer({ imageFileName }) {
     return (
         <div id='metadata-container'>
             <h1>Metadata</h1>
-            <div id='metadata'>
-                <p>Format: {parsedData.format}</p>
-                <p>Mode: {parsedData.mode}</p>
-                <p>Size: {parsedData.size}</p>
-                {parsedData.exif && Object.entries(parsedData.exif).map(([key, value]) => (
-                    <li key={key}>
-                        <strong>{key}:</strong> {value}
-                    </li>
-                ))}
-            </div>
+            <table id='meta-table'>
+                <thead>
+                    <tr>
+                        <th>Property</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Format</td>
+                        <td>{parsedData.format}</td>
+                    </tr>
+                    <tr>
+                        <td>Mode</td>
+                        <td>{parsedData.mode}</td>
+                    </tr>
+                    <tr>
+                        <td>Size</td>
+                        <td>{parsedData.size}</td>
+                    </tr>
+                    {parsedData.exif && Object.entries(parsedData.exif).map(([key, value]) => (
+                        <tr key={key}>
+                            <td>{key}</td>
+                            <td>{value}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
         </div>
     )
 }
