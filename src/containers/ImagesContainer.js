@@ -25,7 +25,10 @@ function ImagesContainer() {
 
     if (selectedImage) {
         return (
-            <MetadataViewContainer imageFileName={selectedImage} />
+            <div>
+                <button onClick={() => setSelectedImage(null)}>Back</button>
+                <MetadataViewContainer imageFileName={selectedImage} />
+            </div>
         );
     }
 
@@ -33,6 +36,7 @@ function ImagesContainer() {
     return (
         <div>
             <h1>Images</h1>
+            <p>Click on an image to view its metadata</p>
             <div className="image-grid">
                 {extractedFiles.map(
                     (file, index) => {
