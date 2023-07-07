@@ -2,11 +2,14 @@ import React, { useContext, useEffect, useState } from "react";
 import FilesContext from "../utility/FilesContext";
 // import "../styles/ImagesContainer.css";
 import MetadataViewContainer from "./MetadataViewContainer";
+import { useNavigate } from "react-router-dom";
 
 
 function ImagesContainer() {
     const [selectedImage, setSelectedImage] = useState(null);
     const { extractedFiles } = useContext(FilesContext);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (extractedFiles.length === 0) {
@@ -23,11 +26,16 @@ function ImagesContainer() {
         setSelectedImage(e.target.alt);
     }
 
+    const handleReturnToUpload = (e) => {
+        e.preventDefault();
+        navigate('/upload')
+    }
+
     if (selectedImage) {
         return (
             <div>
-                <button onClick={() => setSelectedImage(null)}>Back</button>
                 <MetadataViewContainer imageFileName={selectedImage} />
+                <button onClick={() => setSelectedImage(null)}>Back</button>
             </div>
         );
     }
@@ -36,7 +44,7 @@ function ImagesContainer() {
     return (
         <div>
             <h1>Images</h1>
-            <p>Click on an image to view its metadata</p>
+            <p>Click on an image to view its metadata, or its hyperlink to download a copy with no exif data</p>
             <div className="image-grid">
                 {extractedFiles.map(
                     (file, index) => {
@@ -54,6 +62,7 @@ function ImagesContainer() {
                     }
                 )}
             </div>
+            <button onClick={handleReturnToUpload}>Back</button>
         </div>
     );
 }
