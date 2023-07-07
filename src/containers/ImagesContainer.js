@@ -46,21 +46,21 @@ function ImagesContainer() {
             <h1>Images</h1>
             <p>Click on an image to view its metadata, or its hyperlink to download a copy with no exif data</p>
             <div className="image-grid">
-                {extractedFiles.map(
-                    (file, index) => {
-                        if (file.type === 'image/jpeg') {
-                            const imageUrl = URL.createObjectURL(new Blob([file.data], { type: file.type }));
-                            return (
-                                <div className="grid-img-container" key={index}>
-                                    <a href={imageUrl} download={file.filename}>
-                                        <img src={imageUrl} alt={file.filename} type='image/jpeg' onClick={handleTriggerSingleView} />
-                                        <h3>{file.filename}</h3>
-                                    </a>
+                {extractedFiles.map((file, index) => {
+                    if (file.type === 'image/jpeg') {
+                    const imageUrl = URL.createObjectURL(new Blob([file.data], { type: file.type }));
+                    return (
+                        <div className="grid-item" key={index}>
+                            <a href={imageUrl} download={file.filename}>
+                                <div className="grid-img-container">
+                                <img src={imageUrl} alt={file.filename} type="image/jpeg" onClick={handleTriggerSingleView} />
                                 </div>
-                            );
-                        }
+                                <h3>{file.filename}</h3>
+                            </a>
+                        </div>
+                    );
                     }
-                )}
+                })}
             </div>
             <button onClick={handleReturnToUpload}>Back</button>
         </div>
