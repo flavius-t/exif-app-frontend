@@ -11,7 +11,8 @@ function FileSelector({ onDragEnter, onDragLeave, onDrop, onFileInputChange, onU
     )
 
     const upload_area = (
-        <div
+        <div id='upload-container'>
+            <div
             id="file-upload-drag-area"
             className={isDragging ? 'drag-active' : ''}
             onDragEnter={onDragEnter}
@@ -20,22 +21,16 @@ function FileSelector({ onDragEnter, onDragLeave, onDrop, onFileInputChange, onU
             onDrop={onDrop}
             onClick={onUploadClick}
         >
-            <p>Drag and drop files here or click to select</p>
-            <input
-                type="file"
-                id="input-file-upload"
-                accept={allowedFileTypes.join(',')}
-                multiple={true}
-                onChange={onFileInputChange}
-                ref = {fileButtonRef}
-            />
-        </div>
-    )
-
-    return (
-        <div id="file-upload-container">
-            { isProcessing && processing_message}
-            { !isProcessing && upload_area}
+                <p>Drag and drop files here or click to select</p>
+                <input
+                    type="file"
+                    id="input-file-upload"
+                    accept={allowedFileTypes.join(',')}
+                    multiple={true}
+                    onChange={onFileInputChange}
+                    ref = {fileButtonRef}
+                />
+            </div>
             <p>
                 <strong>Supported file types:</strong> {allowedFileTypes.join(', ')}
             </p>
@@ -61,6 +56,13 @@ function FileSelector({ onDragEnter, onDragLeave, onDrop, onFileInputChange, onU
                     for photography purposes, it can be a great way to reduce file size and save memory.
                 </p>
             </div>
+        </div>    
+    )
+
+    return (
+        <div id="file-upload-container">
+            { isProcessing && processing_message}
+            { !isProcessing && upload_area}
         </div>
     );
 }
