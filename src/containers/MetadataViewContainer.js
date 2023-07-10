@@ -24,6 +24,8 @@ function readBlobAsJson(blob) {
 
 export default function MetadataViewContainer({ imageFileName }) {
     const { extractedFiles } = useContext(FilesContext);
+    const [metaFile, setMetaFile] = useState(null);
+    const [metaUrl, setMetaUrl] = useState(null);
     const [parsedData, setParsedData] = useState({});
     
     useEffect(() => {
@@ -38,8 +40,14 @@ export default function MetadataViewContainer({ imageFileName }) {
             console.log(metaFile);
 
             if (!metaFile) {
+                setMetaUrl(null);
+                setMetaFile(null);
                 return <div>Metadata not found</div>;
             }
+
+            const metaUrl = URL.createObjectURL(new Blob([metaFile.data], { type: metaFile.type }));
+            setMetaUrl(metaUrl);
+            setMetaFile(metaFile);
 
             readBlobAsJson(metaFile.data).then((jsonData) => {
                 console.log(jsonData);
@@ -83,6 +91,7 @@ export default function MetadataViewContainer({ imageFileName }) {
                     ))}
                 </tbody>
             </table>
+            {metaUrl && <a href={metaUrl} download={metaFile.filename}>Download Metadata</a>}
         </div>
     )
 }
