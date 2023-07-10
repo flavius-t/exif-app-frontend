@@ -58,26 +58,21 @@ const FileUpload = () => {
         const formData = new FormData();
         formData.append('file', zip_blob, 'images.zip');
         
-        console.time('server request');
         fetch('http://localhost:5000/upload', {
             method: 'POST',
             body: formData,
         })
             .then(response => {
-                console.timeEnd('server request');
                 return response.blob()
             })
             .then(blob => {
-                console.time('unzip');
                 unzipBlob(blob)
                     .then(extracted => {
-                        console.timeEnd('unzip');
                         updateFiles(extracted);
                     })
                     .catch(error => {
                         console.error(error);
                 });
-                console.timeEnd('myFunction');
 
                 setIsProcessing(false);
 
