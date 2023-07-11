@@ -40,14 +40,19 @@ function ImagesContainer() {
         navigate('/upload')
     }
 
-    if (selectedImage) {
-        return (
-            <div>
-                <MetadataViewContainer imageFileName={selectedImage} />
-                <button onClick={() => setSelectedImage(null)}>Back</button>
-            </div>
-        );
+    const handleClosePopup = (e) => {
+        e.preventDefault();
+        setSelectedImage(null);
     }
+
+    // if (selectedImage) {
+    //     return (
+    //         <div>
+    //             <MetadataViewContainer imageFileName={selectedImage} />
+    //             <button onClick={() => setSelectedImage(null)}>Back</button>
+    //         </div>
+    //     );
+    // }
 
     // TODO: turn this into ImagesGrid presentational component
     return (
@@ -74,6 +79,7 @@ function ImagesContainer() {
             <div>
                 {zipBlobUrl && <a href={zipBlobUrl} download="images.zip">Download All</a>}
             </div>
+            {selectedImage && <MetadataViewContainer imageFileName={selectedImage} onClose={handleClosePopup}/>}
             <button onClick={handleReturnToUpload}>Back</button>
         </div>
     );

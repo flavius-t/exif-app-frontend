@@ -191,3 +191,59 @@ h3 {
   width: 100%;
   height: 100%;
 }
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-y: auto;
+}
+
+.popup-content {
+  height: 50%;
+  background-color: rgba(0, 0, 0, 0.75);
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 500px;
+  text-align: center;
+  overflow-y: auto;
+}
+
+.popup-close {
+  display: flex;
+  justify-content: right;
+}
+
+#popup-close-btn {
+  background-color: red;
+  padding: 5px 10px;
+  font-size: 20px;
+  cursor: pointer;
+  margin: 0;
+}
+
+#popup-close-btn:hover {
+  background-color: #df0b0b;
+}
+
+#popup-title {
+  margin-top: 10px;
+  margin-bottom: 20px;
+  color: rgb(236, 236, 236);
+  overflow-y: hidden;
+}
+
+#metadata-table {
+  overflow-y: hidden;
+}
+
+#meta-download {
+  margin-top: 20px;
+  overflow-y: hidden;
+}
