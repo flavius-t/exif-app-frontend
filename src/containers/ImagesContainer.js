@@ -7,7 +7,8 @@ import { useNavigate } from "react-router-dom";
 
 function ImagesContainer() {
     const [selectedImage, setSelectedImage] = useState(null);
-    const { extractedFiles } = useContext(FilesContext);
+    const [zipBlobUrl, setZipBlobUrl] = useState(null);
+    const { extractedFiles, zipBlob } = useContext(FilesContext);
 
     const navigate = useNavigate();
 
@@ -18,6 +19,14 @@ function ImagesContainer() {
         console.log("extractedFiles changed");
         console.log(extractedFiles);
     }, [extractedFiles]);
+
+    useEffect(() => {
+        if (zipBlob) {
+            console.log("zipBlob changed");
+            console.log(zipBlob);
+            setZipBlobUrl(URL.createObjectURL(zipBlob));
+        }
+    }, [zipBlob]);
 
     const handleTriggerSingleView = (e) => {
         e.preventDefault();
@@ -61,6 +70,9 @@ function ImagesContainer() {
                     );
                     }
                 })}
+            </div>
+            <div>
+                {zipBlobUrl && <a href={zipBlobUrl} download="images.zip">Download All</a>}
             </div>
             <button onClick={handleReturnToUpload}>Back</button>
         </div>

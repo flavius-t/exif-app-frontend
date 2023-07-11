@@ -9,6 +9,7 @@ import { useState } from 'react';
 
 function App() {
   const [extractedFiles, setExtractedFiles] = useState([]);
+  const [zipBlob, setZipBlob] = useState(null);
 
   const updateFiles = (files) => {
     setExtractedFiles(files);
@@ -17,7 +18,7 @@ function App() {
   return (
     <div className="App">
         <h1>EXIF App</h1>
-        <FilesContext.Provider value={{ extractedFiles, updateFiles }}>
+        <FilesContext.Provider value={{ extractedFiles, updateFiles, zipBlob, setZipBlob }}>
           <Routes>
             <Route path="/" element={<FileSelectorContainer />} />
             <Route path="/upload" element={<FileSelectorContainer />} />

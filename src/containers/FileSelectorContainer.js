@@ -26,7 +26,7 @@ const FileUpload = () => {
 
     const fileButton = useRef(null);
     const navigate = useNavigate();
-    const { updateFiles } = useContext(FilesContext);
+    const { updateFiles, setZipBlob } = useContext(FilesContext);
 
     const handleDragEnter = (e) => {
         console.log('drag enter')
@@ -66,6 +66,7 @@ const FileUpload = () => {
                 return response.blob()
             })
             .then(blob => {
+                setZipBlob(blob);
                 unzipBlob(blob)
                     .then(extracted => {
                         updateFiles(extracted);
