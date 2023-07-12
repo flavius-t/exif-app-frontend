@@ -4,7 +4,7 @@ import allowedFileTypes from '../utility/fileTypes';
 
 function FileSelector({ onDragEnter, onDragLeave, onDrop, onFileInputChange, onUploadClick, isDragging, fileButtonRef, isProcessing }) {
     const processing_message = (
-        <div>
+        <div className="file-upload-processing">
             <p>Processing your images...this may take a few seconds</p>
             <p>Please do not refresh your browser</p>
         </div>

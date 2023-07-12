@@ -5,6 +5,8 @@ import FileSelectorContainer from './containers/FileSelectorContainer';
 import ImagesContainer from './containers/ImagesContainer';
 import FilesContext from './utility/FilesContext';
 import { useState } from 'react';
+import NavBar from './components/NavBar';
+import Footer from './components/Footer';
 
 
 function App() {
@@ -17,14 +19,15 @@ function App() {
 
   return (
     <div className="App">
-        <h1>EXIF App</h1>
-        <FilesContext.Provider value={{ extractedFiles, updateFiles, zipBlob, setZipBlob }}>
-          <Routes>
-            <Route path="/" element={<FileSelectorContainer />} />
-            <Route path="/upload" element={<FileSelectorContainer />} />
-            <Route path="/images/:request_id" element={<ImagesContainer />} />
-          </Routes>
+      <NavBar />
+      <FilesContext.Provider value={{ extractedFiles, updateFiles, zipBlob, setZipBlob }}>
+        <Routes>
+          <Route path="/" element={<FileSelectorContainer />} />
+          <Route path="/upload" element={<FileSelectorContainer />} />
+          <Route path="/images/:request_id" element={<ImagesContainer />} />
+        </Routes>
         </FilesContext.Provider>
+      <Footer />
     </div>
   );
 }

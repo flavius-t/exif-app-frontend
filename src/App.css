@@ -9,10 +9,6 @@ body {
   background-color: #3b3b3b;
 }
 
-* {
-  border-color: #df0b0b;
-}
-
 .App {
   display: flex;
   flex-direction: column;
@@ -26,10 +22,23 @@ h1 {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+nav, footer {
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100%;
+}
+
 p {
   color: white;
   font-size: 20px;
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.file-upload-processing {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 #input-file-upload {
@@ -180,7 +189,7 @@ a:hover {
   width: 60%;
   background-color: #131313;
   padding: 20px;
-  margin: 20px;
+  margin: 40px;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
