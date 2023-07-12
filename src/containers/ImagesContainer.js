@@ -69,7 +69,7 @@ function ImagesContainer() {
                                 <div className="grid-img-container">
                                 <img src={imageUrl} alt={file.filename} type="image/jpeg" onClick={handleTriggerSingleView} />
                                 </div>
-                                <h3>{file.filename}</h3>
+                                <h3 className='grid-img-title'>{file.filename}</h3>
                             </a>
                         </div>
                     );

@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -19,7 +23,6 @@ body {
 h1 {
   color: white;
   font-size: 40px;
-  margin-top: 50px;
   font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -42,8 +45,8 @@ p {
   border: 3px dashed #ffffff;
   border-radius: 5px;
   padding: 20px;
-  width: 40%;
-  height: 200px;
+  width: 50%;
+  height: 300px;
 }
 
 #file-upload-drag-area:hover {
@@ -173,15 +176,53 @@ a:hover {
   color: #3e8e41;
 }
 
-#welcome-text {
+.about-text {
   width: 60%;
+  background-color: #131313;
+  padding: 20px;
+  margin: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.about-text h3 {
+  color: #ffffff;
+  font-size: 25px;
+  margin-bottom: 10px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.about-text p {
+  color: #ffffff;
+  line-height: 1.5;
+  font-size: 18px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.about-text ul {
+  color: #ffffff;
+  text-align: left;
+}
+
+.about-text ul li {
+  margin-bottom: 5px;
 }
 
 h3 {
   color: white;
   font-size: 20px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.grid-img-title {
+  color:#15f53a;
+  font-size: 20px;
   margin-top: 20px;
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.grid-img-title:hover {
+  color: #3e8e41;
 }
 
 #upload-container {
@@ -205,11 +246,11 @@ h3 {
 }
 
 .popup-content {
-  height: 50%;
+  height: 75%;
+  width: 40%;
   background-color: rgba(0, 0, 0, 0.75);
-  padding: 20px;
+  padding: 20px 40px;
   border-radius: 10px;
-  max-width: 500px;
   text-align: center;
   overflow-y: auto;
   overflow-x: hidden;

@@ -34,27 +34,42 @@ function FileSelector({ onDragEnter, onDragLeave, onDrop, onFileInputChange, onU
             <p>
                 <strong>Supported file types:</strong> {allowedFileTypes.join(', ')}
             </p>
-            <div id='welcome-text'>
+            <div className='about-text'>
                 <h3>What is EXIF data?</h3>
                 <p>
                     EXIF data is metadata that is automatically added to image files by digital cameras and smartphones.
                     This data can include the date and time the photo was taken, the camera settings used, and even the
-                    location where the photo was taken. This data can be useful, if for example you are a photographer, but it can also be a privacy concern.
-                    You may not want to share such information with others.
+                    location where the photo was taken. This data can be useful, for example for photography editing, but it can also be a privacy concern.
+                    You may not wish to share such information with others over the internet.
                 </p>
-                <h3>What does this tool do?</h3>
+                <h3>What Does This Application Do?</h3>
                 <p>
-                    This tool allows you to upload images and download copies of those images with the EXIF data removed.
+                    This application allows you to upload images and download copies of those images with the EXIF data removed.
                     It also allows you to view the extracted EXIF data for each image, and download it as well.
                 </p>
                 <h3>Why Remove Exif Data?</h3>
-                <p>
-                    There are many reasons why you might want to remove EXIF data from your images. As previously mentioned
-                    you may be concerned about privacy. However, another benefit of removing EXIF data is that it can significantly reduce
-                    image file size. For example, a 5MB image can be reduced to 1MB or less by removing EXIF data, without affecting image quality.
-                    This may not be in your interest if you wish to preserve the EXIF data, but if you are just sharing images online, or don't plan on using the EXIF data
-                    for photography purposes, it can be a great way to reduce file size and save memory.
-                </p>
+                    <ul>
+                        <li>
+                            <p>
+                                <strong>Privacy</strong> - EXIF data can contain sensitive information.
+                            </p>
+                        </li>
+                        <li>
+                            <p>
+                                <strong>File Size</strong> - Removing EXIF data can significantly reduce image file size.
+                            </p>
+                        </li>
+                        <li>
+                            <p>
+                                <strong>Copyright</strong> - Professional photographers may wish to remove EXIF data for copyright reasons.
+                            </p>
+                        </li>
+                    </ul>
+                <h3>Privacy</h3>
+                    <p>
+                        This application temporarily stores your images on a server for processing.
+                        Your images are deleted from the server immediately after processing is complete.
+                    </p>
             </div>
         </div>    
     )
