@@ -10,6 +10,7 @@ const FileUpload = () => {
     const [files, setFiles] = useState([]);
     const [isDragging, setIsDragging] = useState(false);
     const [isProcessing, setIsProcessing] = useState(false);
+    const [requestId, setRequestId] = useState(null);
 
     useEffect(
         () => {
@@ -23,6 +24,19 @@ const FileUpload = () => {
         },
         [files]
     );
+
+    // Navigate to images page only once request id has been set (useState is async)
+    useEffect(
+        () => {
+            // ignore empty request id during initial render
+            if (!requestId) {
+                return;
+            }
+            console.log('request id changed', requestId)
+            navigate(`/images/${requestId}`);
+        },
+        [requestId]
+    )
 
     const fileButton = useRef(null);
     const navigate = useNavigate();
@@ -49,6 +63,14 @@ const FileUpload = () => {
         return true;
     }
 
+    const getRequestId = (headers) => {
+        for (let entry of headers.entries()) {
+            if (entry[0] === 'x-request-id') {
+                setRequestId(entry[1]);
+            }
+        }
+    }
+
     const submitFilesToServer = async () => {
         setIsProcessing(true);
 
@@ -63,6 +85,7 @@ const FileUpload = () => {
             body: formData,
         })
             .then(response => {
+                getRequestId(response.headers);
                 return response.blob()
             })
             .then(blob => {
@@ -77,9 +100,7 @@ const FileUpload = () => {
 
                 setIsProcessing(false);
 
-                // TODO: get request id from response
-                const request_id = "avadfadfadfdas" 
-                navigate(`/images/${request_id}`);
+                console.log('request id at nav time', requestId)
             })
             .catch(error => {
                 // Handle errors
