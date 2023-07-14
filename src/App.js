@@ -26,7 +26,7 @@ function App() {
           <Route path="/upload" element={<FileSelectorContainer />} />
           <Route path="/images/:request_id" element={<ImagesContainer />} />
         </Routes>
-        </FilesContext.Provider>
+      </FilesContext.Provider>
       <Footer />
     </div>
   );

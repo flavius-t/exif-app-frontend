@@ -92,6 +92,10 @@ p {
   text-decoration: underline;
 }
 
+.images-container {
+  height: 100vh;
+}
+
 .image-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));

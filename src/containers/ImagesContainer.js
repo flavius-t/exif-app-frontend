@@ -45,18 +45,9 @@ function ImagesContainer() {
         setSelectedImage(null);
     }
 
-    // if (selectedImage) {
-    //     return (
-    //         <div>
-    //             <MetadataViewContainer imageFileName={selectedImage} />
-    //             <button onClick={() => setSelectedImage(null)}>Back</button>
-    //         </div>
-    //     );
-    // }
-
     // TODO: turn this into ImagesGrid presentational component
     return (
-        <div>
+        <div className='images-container'>
             <h1>Images</h1>
             <p>Click on an image to view its metadata, or its hyperlink to download a copy with no exif data</p>
             <div className="image-grid">
