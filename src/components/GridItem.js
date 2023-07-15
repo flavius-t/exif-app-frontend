@@ -1,8 +1,8 @@
 import React from 'react';
 
-const GridItem = ({ imageUrl, index, file, handleTriggerSingleView }) => {
+const GridItem = ({ imageUrl, file, handleTriggerSingleView }) => {
     return (
-        <div className="grid-item" key={index}>
+        <div className="grid-item">
             <a href={imageUrl} download={file.filename}>
                 <div className="grid-img-container">
                     <img src={imageUrl} alt={file.filename} type="image/jpeg" onClick={handleTriggerSingleView} />

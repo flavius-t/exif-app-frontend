@@ -10,7 +10,7 @@ const ImagesGrid = ({ extractedFiles, handleTriggerSingleView }) => {
                 return (
                     <GridItem
                         imageUrl={imageUrl}
-                        index={index}
+                        key={index}
                         file={file}
                         handleTriggerSingleView={handleTriggerSingleView}
                     />
