@@ -4,5 +4,10 @@
 
 .custom-error-toast {
     color: white;
-    background-color: #ff0000; /* Set your desired background color */
+    background-color: #d34949; /* Set your desired background color */
+}
+
+.custom-success-toast {
+    color: white;
+    background-color: #6bac6b; /* Set your desired background color */
 }

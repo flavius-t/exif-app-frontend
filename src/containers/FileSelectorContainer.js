@@ -25,6 +25,13 @@ const FileUpload = () => {
             if (files.length === 0) {
                 return;
             }
+            toast.success(
+                'Files uploaded successfully.', {
+                position: toast.POSITION.TOP_CENTER,
+                className: 'custom-success-toast',
+                autoClose: 3000, // Duration in milliseconds
+                }
+            );
             submitFilesToServer();
         },
         [files]
