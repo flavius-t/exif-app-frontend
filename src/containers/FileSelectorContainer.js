@@ -4,6 +4,9 @@ import FileSelector from '../components/FileSelector';
 import allowedFileTypes from '../utility/fileTypes';
 import { zipFiles, unzipBlob } from '../utility/zip';
 import FilesContext from '../utility/FilesContext';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import '../styles/toastStyles.css'
 
 
 const FileUpload = () => {
@@ -52,6 +55,12 @@ const FileUpload = () => {
     const areFilesAllowed = (files) => {
         for (let i = 0; i < files.length; i++) {
             if (!allowedFileTypes.includes(files[i].type)) {
+                toast.error(
+                    'File type not allowed. Please select image files only.', {
+                    position: toast.POSITION.TOP_CENTER,
+                    className: 'custom-error-toast',
+                    autoClose: 3000, // Duration in milliseconds
+                });
                 return false;
             }
         }
@@ -101,12 +110,6 @@ const FileUpload = () => {
         });
     };
 
-    const handleFilesNotAllowed = () => {
-        // TODO: display flash message
-        alert('Only image files are allowed!');
-        return;
-    }
-
     const handleDrop = (e) => {
         /**
          *
@@ -119,7 +122,7 @@ const FileUpload = () => {
         setIsDragging(false);
 
         if (!areFilesAllowed(e.dataTransfer.files)) {
-            handleFilesNotAllowed();
+            return;
         }
 
         // setFiles is async, use useEffect to submit files
@@ -136,7 +139,7 @@ const FileUpload = () => {
         */
 
         if (!areFilesAllowed(e.target.files)) {
-            handleFilesNotAllowed();
+            return;
         }
 
         // setFiles is async, use useEffect to submit files
