@@ -1,0 +1,8 @@
+.Toastify__toast-body {
+    width: 1000px; /* Set your desired width */
+  }
+
+.custom-error-toast {
+    color: white;
+    background-color: #ff0000; /* Set your desired background color */
+}
