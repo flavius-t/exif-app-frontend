@@ -12,44 +12,39 @@ const FileUpload = () => {
     const [isProcessing, setIsProcessing] = useState(false);
     const [requestId, setRequestId] = useState(null);
 
+    const fileButton = useRef(null); // ref to hidden file input button for drag area click events
+    const navigate = useNavigate();
+    const { updateFiles, setZipBlob } = useContext(FilesContext);
+
     useEffect(
         () => {
-            // ignore empty files array during initial render
+            // ignore empty array during initial render
             if (files.length === 0) {
                 return;
             }
-            console.log('files changed: submitting files to server');
-            console.log(files);
             submitFilesToServer();
         },
         [files]
     );
 
-    // Navigate to images page only once request id has been set (useState is async)
+    // navigate to images page only once requestId has been set (useState is async)
     useEffect(
         () => {
-            // ignore empty request id during initial render
+            // ignore null requestId during initial render
             if (!requestId) {
                 return;
             }
-            console.log('request id changed', requestId)
             navigate(`/images/${requestId}`);
         },
         [requestId]
     )
 
-    const fileButton = useRef(null);
-    const navigate = useNavigate();
-    const { updateFiles, setZipBlob } = useContext(FilesContext);
-
     const handleDragEnter = (e) => {
-        console.log('drag enter')
         e.preventDefault();
         setIsDragging(true);
     };
 
     const handleDragLeave = (e) => {
-        console.log('drag leave')
         e.preventDefault();
         setIsDragging(false);
     };
@@ -99,8 +94,6 @@ const FileUpload = () => {
                 });
 
                 setIsProcessing(false);
-
-                console.log('request id at nav time', requestId)
             })
             .catch(error => {
                 // Handle errors
@@ -108,13 +101,25 @@ const FileUpload = () => {
         });
     };
 
+    const handleFilesNotAllowed = () => {
+        // TODO: display flash message
+        alert('Only image files are allowed!');
+        return;
+    }
+
     const handleDrop = (e) => {
+        /**
+         *
+         * @description Process file drop events
+         * @param {Event} e - drop event
+         * @return {void}
+         * 
+        */
         e.preventDefault();
         setIsDragging(false);
 
         if (!areFilesAllowed(e.dataTransfer.files)) {
-            alert('Only image files are allowed!');
-            return;
+            handleFilesNotAllowed();
         }
 
         // setFiles is async, use useEffect to submit files
@@ -122,11 +127,28 @@ const FileUpload = () => {
     };
 
     const handleFileInputChange = (e) => {
+        /**
+         * 
+         * @description Process file selection events
+         * @param {Event} e - file input change event
+         * @return {void}
+         * 
+        */
+
+        if (!areFilesAllowed(e.target.files)) {
+            handleFilesNotAllowed();
+        }
+
         // setFiles is async, use useEffect to submit files
         setFiles(e.target.files);
     };
     
     const handleUploadButtonClick = () => {
+        /**
+         * 
+         * @description Handles clicking hidden input button when user clicks on upload area.
+         * @return {void}
+         */
         fileButton.current.click();
     };
 
