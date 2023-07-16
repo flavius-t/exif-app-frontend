@@ -1,5 +1,6 @@
 import React from 'react';
 import allowedFileTypes from '../utility/fileTypes';
+import LoadingSpinner from './LoadingSpinner';
 
 
 function FileSelector({ onDragEnter, onDragLeave, onDrop, onFileInputChange, onUploadClick, isDragging, fileButtonRef, isProcessing }) {
@@ -7,6 +8,7 @@ function FileSelector({ onDragEnter, onDragLeave, onDrop, onFileInputChange, onU
         <div className="file-upload-processing">
             <p>Processing your images...this may take a few seconds</p>
             <p>Please do not refresh your browser</p>
+            <LoadingSpinner />
         </div>
     )
 
