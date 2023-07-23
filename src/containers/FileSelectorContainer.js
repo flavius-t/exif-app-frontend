@@ -17,13 +17,13 @@ const FileUpload = () => {
     const navigate = useNavigate();
     const { updateFiles, setZipBlob } = useContext(FilesContext);
 
+    // submit files to server once files state has been set (useState is async)
     useEffect(
         () => {
             // ignore empty array during initial render
             if (files.length === 0) {
                 return;
             }
-            toastSuccess("Files uploaded successfully.");
             submitFilesToServer();
         },
         [files]
@@ -77,8 +77,17 @@ const FileUpload = () => {
     const submitFilesToServer = async () => {
         setIsProcessing(true);
 
-        // TODO: error handling
-        const zip_blob = await zipFiles(files);
+        let zip_blob = null;
+
+        try {
+            zip_blob = await zipFiles(files);
+        }
+        catch (error) {
+            console.error(error);
+            toastError('Error zipping files: ' + error.message);
+            setIsProcessing(false);
+            return;
+        }
 
         const formData = new FormData();
         formData.append('file', zip_blob, 'images.zip');
@@ -88,6 +97,14 @@ const FileUpload = () => {
             body: formData,
         })
             .then(response => {
+                if (!response.ok) {
+                    console.log(response);
+                    response.text().then(text => {
+                        toastError(text);
+                    });
+                    throw new Error('Network response was not ok');
+                }
+                toastSuccess("Files uploaded successfully.");
                 getRequestId(response.headers);
                 return response.blob()
             })
@@ -104,8 +121,8 @@ const FileUpload = () => {
                 setIsProcessing(false);
             })
             .catch(error => {
-                // Handle errors
                 console.log(error);
+                setIsProcessing(false);
         });
     };
 
