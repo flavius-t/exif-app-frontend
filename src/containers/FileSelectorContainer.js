@@ -4,9 +4,7 @@ import FileSelector from '../components/FileSelector';
 import allowedFileTypes from '../utility/fileTypes';
 import { zipFiles, unzipBlob } from '../utility/zip';
 import FilesContext from '../utility/FilesContext';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import '../styles/toastStyles.css'
+import { toastError, toastSuccess } from '../utility/customToasts';
 
 
 const FileUpload = () => {
@@ -25,13 +23,7 @@ const FileUpload = () => {
             if (files.length === 0) {
                 return;
             }
-            toast.success(
-                'Files uploaded successfully.', {
-                position: toast.POSITION.TOP_CENTER,
-                className: 'custom-success-toast',
-                autoClose: 3000, // Duration in milliseconds
-                }
-            );
+            toastSuccess("Files uploaded successfully.");
             submitFilesToServer();
         },
         [files]
@@ -61,13 +53,13 @@ const FileUpload = () => {
 
     const areFilesAllowed = (files) => {
         for (let i = 0; i < files.length; i++) {
+            if (files[i].type === '') {
+                toastError('Directories not allowed. Please select supported image file types only.');
+                return false;
+            }
+
             if (!allowedFileTypes.includes(files[i].type)) {
-                toast.error(
-                    'File type not allowed. Please select image files only.', {
-                    position: toast.POSITION.TOP_CENTER,
-                    className: 'custom-error-toast',
-                    autoClose: 3000, // Duration in milliseconds
-                });
+                toastError(`File type '${files[i].type}' not allowed. Please select supported image file types only.`);
                 return false;
             }
         }
