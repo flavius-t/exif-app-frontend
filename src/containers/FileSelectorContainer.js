@@ -42,11 +42,25 @@ const FileUpload = () => {
     )
 
     const handleDragEnter = (e) => {
+        /**
+         * 
+         * @description Processes drag enter events for drop box area
+         * @param {Event} e - drag enter event
+         * @return {void}
+         * 
+        */
         e.preventDefault();
         setIsDragging(true);
     };
 
     const handleDragLeave = (e) => {
+        /**
+         * 
+         * @description Processes drag leave events for drop box area
+         * @param {Event} e - drag leave event
+         * @return {void}
+         * 
+         */
         e.preventDefault();
         setIsDragging(false);
     };
@@ -67,6 +81,13 @@ const FileUpload = () => {
     }
 
     const getRequestId = (headers) => {
+        /**
+         * 
+         * @description Extracts request id from response headers
+         * @param {Headers} headers - response headers
+         * @return {void}
+         * 
+         */
         for (let entry of headers.entries()) {
             if (entry[0] === 'x-request-id') {
                 setRequestId(entry[1]);
@@ -75,6 +96,12 @@ const FileUpload = () => {
     }
 
     const submitFilesToServer = async () => {
+        /**
+         * 
+         * @description Submits uploaded files to server for processing
+         * @return {void}
+         * 
+         */
         setIsProcessing(true);
 
         let zip_blob = null;
