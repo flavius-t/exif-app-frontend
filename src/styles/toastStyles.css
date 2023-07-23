@@ -1,13 +1,13 @@
 .Toastify__toast-body {
-    width: 1000px; /* Set your desired width */
+    width: 1000px;
   }
 
 .custom-error-toast {
     color: white;
-    background-color: #d34949; /* Set your desired background color */
+    background-color: #d34949;
 }
 
 .custom-success-toast {
     color: white;
-    background-color: #6bac6b; /* Set your desired background color */
+    background-color: #6bac6b;
 }
