@@ -31,13 +31,9 @@ export default function MetadataViewContainer({ imageFileName, onClose }) {
     useEffect(() => {
         try {
             const metaFileName = imageFileName.replace('.jpg', '_meta.json');
-            console.log(metaFileName);
-
             const metaFile = extractedFiles.find(
                 (file) => file.filename === metaFileName
             );
-
-            console.log(metaFile);
 
             if (!metaFile) {
                 setMetaUrl(null);
@@ -50,7 +46,6 @@ export default function MetadataViewContainer({ imageFileName, onClose }) {
             setMetaFile(metaFile);
 
             readBlobAsJson(metaFile.data).then((jsonData) => {
-                console.log(jsonData);
                 setParsedData(jsonData);
             });
 
