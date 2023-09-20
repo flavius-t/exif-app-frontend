@@ -6,6 +6,7 @@ import FilesContext from './utility/FilesContext';
 import { useState } from 'react';
 import NavBar from './components/NavBar';
 import Footer from './components/Footer';
+import RegisterContainer from './containers/RegisterContainer';
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
           <Route path="/" element={<FileSelectorContainer />} />
           <Route path="/upload" element={<FileSelectorContainer />} />
           <Route path="/images/:request_id" element={<ImagesContainer />} />
+          <Route path="/register" element={<RegisterContainer />} />
         </Routes>
       </FilesContext.Provider>
       <Footer />
