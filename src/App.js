@@ -7,6 +7,7 @@ import { useState } from 'react';
 import NavBar from './components/NavBar';
 import Footer from './components/Footer';
 import RegisterContainer from './containers/RegisterContainer';
+import LoginContainer from './containers/LoginContainer';
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
           <Route path="/upload" element={<FileSelectorContainer />} />
           <Route path="/images/:request_id" element={<ImagesContainer />} />
           <Route path="/register" element={<RegisterContainer />} />
+          <Route path="/login" element={<LoginContainer />} />
         </Routes>
       </FilesContext.Provider>
       <Footer />

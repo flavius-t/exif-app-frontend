@@ -118,10 +118,16 @@ const FileUpload = () => {
 
         const formData = new FormData();
         formData.append('file', zip_blob, 'images.zip');
+
+        const csrf_token = document.cookie.split(';')[0].split('=')[1];
         
         fetch('http://localhost:5000/upload', {
             method: 'POST',
             body: formData,
+            credentials: 'include',
+            headers: {
+                'X-CSRF-TOKEN': csrf_token
+            }
         })
             .then(response => {
                 if (!response.ok) {
