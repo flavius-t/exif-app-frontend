@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import FilesContext from "../utility/FilesContext";
+import FilesContext from "../context/FilesContext";
 
 function readBlobAsJson(blob) {
     return new Promise((resolve, reject) => {
