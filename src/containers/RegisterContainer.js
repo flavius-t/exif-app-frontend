@@ -1,12 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { faCheck, faTimes, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { toastError, toastSuccess } from '../utility/customToasts';
-
 import axios from '../api/axios';
+import Register from '../components/Register';
+
 
 const USERNAME_REGEX = /^[A-Za-z][A-Za-z0-9-_]{3,20}$/; // 3-20 characters, must begin with a letter, letters, numbers, dashes, underscores, hyphens allowed
-const PASS_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/; // 8-24 characters, at least one lowercase, one uppercase, one number, and one special character
+const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/; // 8-24 characters, at least one lowercase, one uppercase, one number, and one special character
 const REGISTER_URL = '/register';
 
 const RegisterContainer = () => {
@@ -14,15 +13,15 @@ const RegisterContainer = () => {
 
     const [username, setUsername] = useState('');
     const [validName, setValidName] = useState(false);
-    const [usernameFocus, setusernameFocus] = useState(false);
+    const [usernameFocus, setUsernameFocus] = useState(false);
 
-    const [pass, setPass] = useState('');
-    const [passValid, setPassValid] = useState(false);
-    const [passFocus, setPassFocus] = useState(false);
+    const [password, setPassword] = useState('');
+    const [passwordValid, setPasswordValid] = useState(false);
+    const [passwordFocus, setPasswordFocus] = useState(false);
 
-    const [matchPass, setMatchPass] = useState('');
-    const [matchPassValid, setMatchPassValid] = useState(false);
-    const [matchPassFocus, setMatchPassFocus] = useState(false);
+    const [matchPassword, setMatchPassword] = useState('');
+    const [matchPasswordValid, setMatchPasswordValid] = useState(false);
+    const [matchPasswordFocus, setMatchPasswordFocus] = useState(false);
 
     const [success, setSuccess] = useState(false); // is the form valid?
 
@@ -39,19 +38,19 @@ const RegisterContainer = () => {
 
     // check if password input is valid and if it matches the confirm password input
     useEffect(() => {
-        const result = PASS_REGEX.test(pass);
-        setPassValid(result);
-        const match = pass === matchPass;
-        setMatchPassValid(match);
-    }, [pass, matchPass]);
+        const result = PASSWORD_REGEX.test(password);
+        setPasswordValid(result);
+        const match = password === matchPassword;
+        setMatchPasswordValid(match);
+    }, [password, matchPassword]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // check if the username and password are valid again (in case submit button is bypassed)
+        // check if the username and password are valid again (in case submit button is bypassworded)
         const test_user = USERNAME_REGEX.test(username);
-        const test_pass = PASS_REGEX.test(pass);
+        const test_password = PASSWORD_REGEX.test(password);
 
-        if (!test_user || !test_pass) {
+        if (!test_user || !test_password) {
             toastError('Invalid username or password.');
             return;
         }
@@ -61,7 +60,7 @@ const RegisterContainer = () => {
         try {
             const response = await axios.post(
                 REGISTER_URL,
-                JSON.stringify({ username: username, password: pass }),
+                JSON.stringify({ username: username, password: password }),
                 {
                     headers: { 'Content-Type': 'application/json' },
                     withCredentials: true
@@ -77,8 +76,8 @@ const RegisterContainer = () => {
 
             // clear the form
             setUsername('');
-            setPass('');
-            setMatchPass('');
+            setPassword('');
+            setMatchPassword('');
         } catch (err) {
             console.log(err);
 
@@ -98,101 +97,25 @@ const RegisterContainer = () => {
     };
 
     return (
-        <>
-            {success ? (
-                <section>
-                    <h1>Success!</h1>
-                    <p>Your account has been created.</p>
-                    <p><a href="/login">Sign In</a></p>
-                </section>
-            ) : (
-                <section>
-                    <h1>Register</h1>
-                    <form onSubmit={handleSubmit}>
-                        <label htmlFor="username">
-                            Username:
-                            <span className={validName ? 'valid' : 'hide'}>
-                                <FontAwesomeIcon icon={faCheck} />
-                            </span>
-                            <span className={validName || !username ? 'hide' : 'invalid'}>
-                                <FontAwesomeIcon icon={faTimes} />
-                            </span>
-                        </label>
-                        <input
-                            type="text"
-                            id="username"
-                            ref={userRef}
-                            autoComplete="off"
-                            onChange={(e) => setUsername(e.target.value)}
-                            required
-                            onFocus={() => setusernameFocus(true)}
-                            onBlur={() => setusernameFocus(false)}
-                        />
-                        <p className={usernameFocus && username && !validName ? 'instructions' : 'offscreen'}>
-                            <FontAwesomeIcon icon={faInfoCircle} />
-                            3-20 characters.<br />
-                            Must begin with a letter.<br />
-                            letters, numbers, hyphens, and underscores allowed.
-                        </p>
-                        <label htmlFor="password">
-                            Password:
-                            <span className={passValid ? 'valid' : 'hide'}>
-                                <FontAwesomeIcon icon={faCheck} />
-                            </span>
-                            <span className={passValid || !pass ? 'hide' : 'invalid'}>
-                                <FontAwesomeIcon icon={faTimes} />
-                            </span>
-                        </label>
-                        <input
-                            type="password"
-                            id="password"
-                            autoComplete="off"
-                            onChange={(e) => setPass(e.target.value)}
-                            required
-                            onFocus={() => setPassFocus(true)}
-                            onBlur={() => setPassFocus(false)}
-                        />
-                        <p className={passFocus && !passValid ? 'instructions' : 'offscreen'}>
-                            <FontAwesomeIcon icon={faInfoCircle} />
-                            8-24 characters.<br />
-                            Please include at least one lowercase, one uppercase, one number, and one special character.
-                        </p>
-                        <label htmlFor="confirm_password">
-                            Confirm Password:
-                            <span className={matchPassValid && matchPass ? 'valid' : 'hide'}>
-                                <FontAwesomeIcon icon={faCheck} />
-                            </span>
-                            <span className={matchPassValid || !matchPass ? 'hide' : 'invalid'}>
-                                <FontAwesomeIcon icon={faTimes} />
-                            </span>
-                        </label>
-                        <input
-                            type="password"
-                            id="confirm_password"
-                            autoComplete="off"
-                            onChange={(e) => setMatchPass(e.target.value)}
-                            required
-                            onFocus={() => setMatchPassFocus(true)}
-                            onBlur={() => setMatchPassFocus(false)}
-                        />
-                        <p className={matchPassFocus && !matchPassValid ? 'instructions' : 'offscreen'}>
-                            <FontAwesomeIcon icon={faInfoCircle} />
-                            Passwords must match.
-                        </p>
-                        <button
-                            type="submit"
-                            disabled={!validName || !passValid || !matchPassValid ? true : false}
-                            className={!validName || !passValid || !matchPassValid ? 'disabled' : 'active'}
-                        >Sign Up</button>
-                        <p>
-                            Already have an account?<br />
-                            {/* router link goes here */}
-                            <span className="link"><a href="/login">Log in</a></span>
-                        </p>
-                    </form>
-                </section>
-            )}
-        </>
+        <Register
+            handleSubmit={handleSubmit}
+            userRef={userRef}
+            username={username}
+            setUsername={setUsername}
+            validName={validName}
+            usernameFocus={usernameFocus}
+            setUsernameFocus={setUsernameFocus}
+            password={password}
+            setPassword={setPassword}
+            passwordValid={passwordValid}
+            passwordFocus={passwordFocus}
+            setPasswordFocus={setPasswordFocus}
+            matchPassword={matchPassword}
+            setMatchPassword={setMatchPassword}
+            matchPasswordValid={matchPasswordValid}
+            matchPasswordFocus={matchPasswordFocus}
+            setMatchPasswordFocus={setMatchPasswordFocus}
+            success={success} />
     );
 };
 
