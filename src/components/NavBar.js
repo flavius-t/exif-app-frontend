@@ -1,8 +1,11 @@
 import React from 'react';
 import axios from '../api/axios';
 import { toastSuccess } from '../utility/customToasts';
+import useAuth from '../hooks/useAuth';
 
 const NavBar = () => {
+    const { setAuth } = useAuth();
+
     const handleLogout = async (e) => {
         e.preventDefault();
         try {
@@ -16,6 +19,7 @@ const NavBar = () => {
             );
             if (response.status === 200) {
                 toastSuccess('Logout Successful');
+                setAuth(false);
                 console.log(response);
             }
         } catch (err) {
