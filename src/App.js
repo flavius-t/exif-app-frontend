@@ -18,7 +18,7 @@ const App = () => {
 
                 {/* protected routes */}
                 <Route element={<RequireAuth />} >
-                    <Route path="/" element={<FileSelectorContainer />} /> {/* change to home page with about info */}
+                    <Route path="/" element={<FileSelectorContainer />} />
                     <Route path="upload" element={<FileSelectorContainer />} />
                     <Route path="images/:request_id" element={<ImagesContainer />} />
                 </Route>
