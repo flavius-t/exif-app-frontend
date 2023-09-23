@@ -5,7 +5,7 @@ import ImagesContainer from './containers/ImagesContainer';
 import RegisterContainer from './containers/RegisterContainer';
 import LoginContainer from './containers/LoginContainer';
 import Layout from './components/Layout';
-import RequireAuth from './containers/RequireAuth';
+import RequireAuth from './components/RequireAuth';
 
 
 const App = () => {
