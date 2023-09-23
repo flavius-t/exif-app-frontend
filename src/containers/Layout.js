@@ -1,13 +1,13 @@
 import { Outlet } from 'react-router-dom';
-import NavBar from '../components/NavBar';
+import NavBarContainer from '../containers/NavBarContainer';
 import Footer from '../components/Footer';
 
 const Layout = () => {
     return (
         <>
             <main className="App">
-                <NavBar />
-                <Outlet /> {/* this is where the child routes will render */}
+                <NavBarContainer />
+                <Outlet /> {/* this is where child routes render */}
                 <Footer />
             </main>
         </>

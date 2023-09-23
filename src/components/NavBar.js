@@ -1,38 +1,10 @@
 import React from 'react';
-import axios from '../api/axios';
-import { toastSuccess } from '../utility/customToasts';
-import useAuth from '../hooks/useAuth';
 
-const NavBar = () => {
-    const { setAuth } = useAuth();
-
-    const handleLogout = async (e) => {
-        e.preventDefault();
-        try {
-            const csrf_token = document.cookie.split(';')[0].split('=')[1];
-            const response = await axios.get(
-                '/logout',
-                {
-                    headers: { 'X-CSRF-TOKEN': csrf_token },
-                    withCredentials: true
-                }
-            );
-            if (response.status === 200) {
-                toastSuccess('Logout Successful');
-                setAuth(false);
-                console.log(response);
-            }
-        } catch (err) {
-            console.log(err);
-            console.log(err.response);
-        }
-    };
-
+const NavBar = ({ auth, handleLogout }) => {
     return (
         <nav>
-            <h1>EXIF App</h1>
-            {/* TODO: display logout only if auth state is true */}
-            <a onClick={handleLogout}>Logout</a>
+            <h1 className="nav-title">EXIF App</h1>
+            {auth ? <a onClick={handleLogout}>Logout</a> : null}
         </nav>
     )
 }
