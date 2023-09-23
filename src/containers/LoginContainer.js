@@ -2,12 +2,13 @@ import React, { useEffect, useState, useRef } from 'react';
 import { toastError, toastSuccess } from '../utility/customToasts';
 import useAuth from '../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
+import Login from '../components/Login';
 
 import axios from '../api/axios';
 
 const LOGIN_URL = '/login';
 
-const LoginView = () => {
+const LoginContainer = () => {
     const usernameRef = useRef();
     const navigate = useNavigate();
 
@@ -53,41 +54,16 @@ const LoginView = () => {
     };
 
     return (
-        <section>
-            <h1>Login</h1>
-            <form onSubmit={handleSubmit}>
-                <label htmlFor="username">Username</label>
-                <input
-                    type="text"
-                    id="username"
-                    name="username"
-                    ref={usernameRef}
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    required
-                    autoComplete='off'
-                />
-                <label htmlFor="password">Password</label>
-                <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                    autoComplete='off'
-                />
-                <button type="submit">Login</button>
-            </form>
-            <p>
-                Need an account? <br />
-                <span className="line">
-                    <a href="/register">Register</a>
-                </span>
-            </p>
-        </section>
+        <Login
+            usernameRef={usernameRef}
+            username={username}
+            setUsername={setUsername}
+            password={password}
+            setPassword={setPassword}
+            handleSubmit={handleSubmit}
+        />
     )
 
 }
 
-export default LoginView;
+export default LoginContainer;
