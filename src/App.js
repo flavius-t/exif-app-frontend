@@ -4,7 +4,7 @@ import FileSelectorContainer from './containers/FileSelectorContainer';
 import ImagesContainer from './containers/ImagesContainer';
 import RegisterContainer from './containers/RegisterContainer';
 import LoginContainer from './containers/LoginContainer';
-import Layout from './containers/Layout';
+import Layout from './components/Layout';
 import RequireAuth from './containers/RequireAuth';
 
 
