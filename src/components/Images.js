@@ -1,6 +1,6 @@
 import React from 'react';
 import ImagesGrid from './ImagesGrid';
-import MetadataViewContainer from '../containers/MetadataViewContainer';
+import MetadataContainer from '../containers/MetadataContainer';
 
 const Images = ({ extractedFiles, handleTriggerSingleView, zipBlobUrl, selectedImage, handleReturnToUpload, handleClosePopup }) => {
     return (
@@ -14,7 +14,7 @@ const Images = ({ extractedFiles, handleTriggerSingleView, zipBlobUrl, selectedI
             <div>
                 {zipBlobUrl && <a href={zipBlobUrl} download="images.zip">Download All</a>}
             </div>
-            {selectedImage && <MetadataViewContainer imageFileName={selectedImage} onClose={handleClosePopup}/>}
+            {selectedImage && <MetadataContainer imageFileName={selectedImage} onClose={handleClosePopup}/>}
             <button onClick={handleReturnToUpload}>Back</button>
         </div>
     )
