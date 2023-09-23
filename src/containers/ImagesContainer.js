@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
-import FilesContext from "../utility/FilesContext";
-// import "../styles/ImagesContainer.css";
+import React, { useEffect, useState } from "react";
+import useFiles from "../hooks/useFiles";
 import { useNavigate } from "react-router-dom";
 import Images from "../components/Images";
 
@@ -8,7 +7,7 @@ import Images from "../components/Images";
 function ImagesContainer() {
     const [selectedImage, setSelectedImage] = useState(null);
     const [zipBlobUrl, setZipBlobUrl] = useState(null);
-    const { extractedFiles, zipBlob } = useContext(FilesContext);
+    const { extractedFiles, zipBlob } = useFiles();
 
     const navigate = useNavigate();
 
@@ -19,8 +18,8 @@ function ImagesContainer() {
     }, [extractedFiles]);
 
     useEffect(() => {
-        if (zipBlob) {
-            setZipBlobUrl(URL.createObjectURL(zipBlob));
+        if (zipBlob && zipBlob.blob) {
+            setZipBlobUrl(window.URL.createObjectURL(zipBlob.blob));
         }
     }, [zipBlob]);
 

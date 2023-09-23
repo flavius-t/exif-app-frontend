@@ -1,9 +1,9 @@
-import React, { useState, useRef, useEffect, useContext } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import FileSelector from '../components/FileSelector';
 import allowedFileTypes from '../utility/fileTypes';
 import { zipFiles, unzipBlob } from '../utility/zip';
-import FilesContext from '../utility/FilesContext';
+import useFiles from '../hooks/useFiles';
 import { toastError, toastSuccess } from '../utility/customToasts';
 
 
@@ -15,12 +15,11 @@ const FileUpload = () => {
 
     const fileButton = useRef(null); // ref to hidden file input button for drag area click events
     const navigate = useNavigate();
-    const { updateFiles, setZipBlob } = useContext(FilesContext);
+    const { extractedFiles, setExtractedFiles, setZipBlob } = useFiles();
 
     // submit files to server once files state has been set (useState is async)
     useEffect(
         () => {
-            // ignore empty array during initial render
             if (files.length === 0) {
                 return;
             }
@@ -33,12 +32,12 @@ const FileUpload = () => {
     useEffect(
         () => {
             // ignore null requestId during initial render
-            if (!requestId) {
+            if (!requestId || extractedFiles.length === 0) {
                 return;
             }
             navigate(`/images/${requestId}`);
         },
-        [requestId]
+        [requestId, extractedFiles]
     )
 
     const handleDragEnter = (e) => {
@@ -118,10 +117,16 @@ const FileUpload = () => {
 
         const formData = new FormData();
         formData.append('file', zip_blob, 'images.zip');
-        
+
+        const csrf_token = document.cookie.split(';')[0].split('=')[1];
+
         fetch('http://localhost:5000/upload', {
             method: 'POST',
             body: formData,
+            credentials: 'include',
+            headers: {
+                'X-CSRF-TOKEN': csrf_token
+            }
         })
             .then(response => {
                 if (!response.ok) {
@@ -136,21 +141,21 @@ const FileUpload = () => {
                 return response.blob()
             })
             .then(blob => {
-                setZipBlob(blob);
+                setZipBlob({blob});
                 unzipBlob(blob)
                     .then(extracted => {
-                        updateFiles(extracted);
+                        setExtractedFiles(extracted);
                     })
                     .catch(error => {
                         console.error(error);
-                });
+                    });
 
                 setIsProcessing(false);
             })
             .catch(error => {
                 console.log(error);
                 setIsProcessing(false);
-        });
+            });
     };
 
     const handleDrop = (e) => {
@@ -188,7 +193,7 @@ const FileUpload = () => {
         // setFiles is async, use useEffect to submit files
         setFiles(e.target.files);
     };
-    
+
     const handleUploadButtonClick = () => {
         /**
          * 
@@ -206,7 +211,7 @@ const FileUpload = () => {
             onFileInputChange={handleFileInputChange}
             onUploadClick={handleUploadButtonClick}
             isDragging={isDragging}
-            fileButtonRef = {fileButton}
+            fileButtonRef={fileButton}
             isProcessing={isProcessing}
         />
     );

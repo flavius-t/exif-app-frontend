@@ -1,9 +1,10 @@
 import React from 'react';
 
-const NavBar = () => {
+const NavBar = ({ auth, handleLogout }) => {
     return (
         <nav>
-            <h1>EXIF App</h1>
+            <h1 className="nav-title">EXIF App</h1>
+            {auth ? <a onClick={handleLogout}>Logout</a> : null}
         </nav>
     )
 }
