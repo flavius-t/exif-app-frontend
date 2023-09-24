@@ -43,9 +43,7 @@ const LoginContainer = () => {
             console.log(err);
             if (!err?.response) {
                 toastError('Network Error: No Server Response');
-            } else if (err.response?.status === 400) {
-                toastError('Missing Username or Password');
-            } else if (err.response?.status === 401) {
+            } else if (err.response?.status === 401 || err.response?.status === 400) {
                 toastError('Login Failed: Invalid Username or Password');
             } else {
                 toastError('Login Failed: Unknown Error');
